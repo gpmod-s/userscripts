@@ -3,8 +3,9 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://garticphone.com/*
 // @grant       GM_xmlhttpRequest
+// @require     https://gpmod.github.io/userscripts/vendor/xhr-parallel.js
 // @noframes
-// @version     5.13
+// @version     5.14
 // @author      -
 // @description 10/31/2021, 1:24:17 AM
 // @run-at      document-start
@@ -21,7 +22,7 @@
 'use strict';
 
 (function(){
-const SCRIPT_DATA={name:"Social Media",version:"5.13",url:"https://gpmod-s.github.io/userscripts/dist/3609712907020738.user.js"},TWITCH_PROFILE_URL="https://www.twitch.tv/{userLogin}",TIMELAPSE_PLAYER_URL_PATTERN="https://gpmod.github.io/gp-timelapse-player/?url={url}",REQUEST_CACHE={VALIDATE:"no-cache",NO_CACHE:"no-store",DEFAULT:""},TRANSLIT_MAP={"\u0430":"a","\u0431":"b","\u0432":"v","\u0433":"g","\u0434":"d","\u0435":"e","\u0451":"e","\u0436":"zh","\u0437":"z","\u0438":"i","\u0439":"i","\u043a":"k","\u043b":"l","\u043c":"m","\u043d":"n",
+const SCRIPT_DATA={name:"Social Media",version:"5.14",url:"https://gpmod-s.github.io/userscripts/dist/3609712907020738.user.js"},TWITCH_PROFILE_URL="https://www.twitch.tv/{userLogin}",TIMELAPSE_PLAYER_URL_PATTERN="https://gpmod.github.io/gp-timelapse-player/?url={url}",REQUEST_CACHE={VALIDATE:"no-cache",NO_CACHE:"no-store",DEFAULT:""},TRANSLIT_MAP={"\u0430":"a","\u0431":"b","\u0432":"v","\u0433":"g","\u0434":"d","\u0435":"e","\u0451":"e","\u0436":"zh","\u0437":"z","\u0438":"i","\u0439":"i","\u043a":"k","\u043b":"l","\u043c":"m","\u043d":"n",
 "\u043e":"o","\u043f":"p","\u0440":"r","\u0441":"s","\u0442":"t","\u0443":"u","\u0444":"f","\u0445":"kh","\u0446":"ts","\u0447":"ch","\u0448":"sh","\u0449":"shch","\u044a":"ie","\u044b":"y","\u044c":"","\u044d":"e","\u044e":"iu","\u044f":"ia"};
 class ArtBroadcasterController{static DISCORD_CREATE_MESSAGE_API="https://discord.com/api/channels/{channel-id}/messages";static DISCORD_SEARCH_USER_API="https://discord.com/api/guilds/{discordServerID}/members/search";static DISCORD_AVATAR_URL="https://cdn.discordapp.com/avatars/{userId}/{avatarID}.png?size=64";static DISCORD_PROFILE_URL="https://discordapp.com/users/{userId}";static DISCORD_REQUEST_HEADERS={Authorization:"Bot ","User-Agent":"DiscordBot"};static VK_API_VERSION="5.131";static VK_GET_UPLOAD_SERVER_API="https://api.vk.com/method/photos.getUploadServer";static VK_SAVE_PHOTO_API="https://api.vk.com/method/photos.save";static SERVICE={DISCORD:"discord",
 TELEGRAM:"telegram",VK:"vk"};static AUTH_TYPE={DISCORD:"discord",TWITCH:"twitch"};static DISCORD_BUTTON={PLAYER:"player",PROCESS:"process"};constructor(){this.usersCache=new Map;this.s={};document.addEventListener("gp:ab.update_settings",({detail:{settings:a}})=>{this.s=Object.assign({},this.s,a);this.updateDiscordRequestHeaders(this.s.discordBotToken)});this.l={};document.addEventListener("_gp_l10n",({detail:{entries:a}})=>{Object.assign(this.l,{...(a.GPArtBroadcaster_??{})})},{once:!0});document.addEventListener("_request_users_data",
